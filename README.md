@@ -10,7 +10,7 @@ Using Python, Pandas, Jupyter Notebook, and a PostgreSQL database:
   - Loaded CSV files into a database
   - Ran queries to retrieve data and generate reports for stakeholders
 
-I planned the connections between the csv data files to prepare before loading the data into SQL:
+## I planned the connections between the csv data files to prepare before loading the data into SQL:
 ![ETL_ERD](https://user-images.githubusercontent.com/116124181/214701948-d9901b41-fd04-4ac4-83e3-1bc259453704.png)
 
 ## Created the Category and Subcategory DataFrames:
