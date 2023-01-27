@@ -1,50 +1,60 @@
---Drop tables if they already exist
-DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS subcategory;
-DROP TABLE IF EXISTS campaign;
-DROP TABLE IF EXISTS contacts;
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Link to schema: https://app.quickdatabasediagrams.com/#/d/dlKkBe
+-- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
---Create all the tables
-CREATE TABLE category(
-	category_id VARCHAR(10) PRIMARY KEY NOT NULL,
-	category VARCHAR(50) NOT NULL
+CREATE TABLE "campaign" (
+    "cf_id" int   NOT NULL,
+    "contact_id" int   NOT NULL,
+    "company_name" varchar(100)   NOT NULL,
+    "description" text   NOT NULL,
+    "goal" numeric(10,2)   NOT NULL,
+    "pledged" numeric(10,2)   NOT NULL,
+    "outcome" varchar(50)   NOT NULL,
+    "backers_count" int   NOT NULL,
+    "country" varchar(10)   NOT NULL,
+    "currency" varchar(10)   NOT NULL,
+    "launch_date" date   NOT NULL,
+    "end_date" date   NOT NULL,
+    "category_id" varchar(10)   NOT NULL,
+    "subcategory_id" varchar(10)   NOT NULL,
+    CONSTRAINT "pk_campaign" PRIMARY KEY (
+        "cf_id"
+     )
 );
 
-CREATE TABLE subcategory(
-	subcategory_id VARCHAR(10) PRIMARY KEY NOT NULL,
-	subcategory VARCHAR(50) NOT NULL
+CREATE TABLE "category" (
+    "category_id" varchar(10)   NOT NULL,
+    "category_name" varchar(50)   NOT NULL,
+    CONSTRAINT "pk_category" PRIMARY KEY (
+        "category_id"
+     )
 );
 
-CREATE TABLE contacts(
-	contact_id INTEGER PRIMARY KEY,
-	first_name VARCHAR (20) NOT NULL,
-	last_name VARCHAR (20) NOT NULL,
-	email VARCHAR (60) NOT NULL
+CREATE TABLE "subcategory" (
+    "subcategory_id" varchar(10)   NOT NULL,
+    "subcategory_name" varchar(50)   NOT NULL,
+    CONSTRAINT "pk_subcategory" PRIMARY KEY (
+        "subcategory_id"
+     )
 );
 
-CREATE TABLE campaign(
-	cf_id INTEGER PRIMARY KEY NOT NULL,
-	contact_id INTEGER,
-	company_name VARCHAR(50),
-	description VARCHAR NOT NULL,
-	goal FLOAT,
-	pledged FLOAT,
-	outcome VARCHAR (15) NOT NULL,
-	backers_count INTEGER,
-	country VARCHAR (10) NOT NULL,
-	currency VARCHAR (10) NOT NULL,
-	launched_date DATE,
-	end_date DATE,
-	category_id VARCHAR (10) NOT NULL,
-	subcategory_id VARCHAR (10) NOT NULL,
-	FOREIGN KEY (contact_id) REFERENCES contacts(contact_id),
-	FOREIGN KEY (category_id) REFERENCES category(category_id),
-	FOREIGN KEY (subcategory_id) REFERENCES subcategory(subcategory_id)
+CREATE TABLE "contacts" (
+    "contact_id" int   NOT NULL,
+    "first_name" varchar(50)   NOT NULL,
+    "last_name" varchar(50)   NOT NULL,
+    "email" varchar(100)   NOT NULL,
+    CONSTRAINT "pk_contacts" PRIMARY KEY (
+        "contact_id"
+     )
 );
 
---Check created tables and After importing the data, show the tables
-SELECT * FROM category;
-SELECT * FROM subcategory;
-SELECT * FROM contacts;
-SELECT * FROM campaign;
+
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_contact_id" FOREIGN KEY("contact_id")
+REFERENCES "contacts" ("contact_id");
+
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_category_id" FOREIGN KEY("category_id")
+REFERENCES "category" ("category_id");
+
+ALTER TABLE "campaign" ADD CONSTRAINT "fk_campaign_subcategory_id" FOREIGN KEY("subcategory_id")
+REFERENCES "subcategory" ("subcategory_id");
